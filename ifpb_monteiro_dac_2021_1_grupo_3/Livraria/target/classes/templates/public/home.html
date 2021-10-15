@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<head leng="pt-br">
+    <meta charset='utf-8'>
+    <title>Livraria</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+    <style>
+        .tituloAncora {
+            text-decoration: none;
+            color: #000000;
+        }
+
+        .tituloAncora:hover {
+            text-decoration: underline;
+            color: #000000;
+        }
+        .conteiner{
+            margin-left: 0%; margin-top: 2%;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .modal-novo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+
+            background-color: white;
+            padding: 6rem;
+            border-radius: 5px;
+            box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 5;
+        }
+
+        .show-modal {
+            font-size: 2rem;
+            font-weight: 600;
+            padding: 1.75rem 3.5rem;
+            margin: 5rem 2rem;
+            border: none;
+            background-color: #fff;
+            color: #444;
+            border-radius: 10rem;
+            cursor: pointer;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.2rem;
+            right: 2rem;
+            font-size: 5rem;
+            color: #333;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .conteiner_btn {
+            margin-left: 75%;
+        }
+
+        #btn_excluir {
+            background-color: #a50a98;
+            color: white;
+            border-color: #a50a98;
+        }
+
+        .menu_container {
+            display: flex;
+            justify-content: left;
+        }
+
+        .conteiner_categorias {
+            margin-left: 5%;
+            margin-top: 3%;
+            width: 300px;
+        }
+
+        .form-check {
+            margin-top: 5%;
+        }
+
+        #bnt_filtrar {
+            background-color: #a50a98;
+            color: white;
+            border-color: #a50a98;
+            margin-top: 5%;
+            margin-left: 35%;
+        }
+        h1{
+            width: 60%;
+        }
+    </style>
+    <script>
+
+        function excluir() {
+            console.log(document.getElementById("btn_login"));
+        }
+
+        function showModal() {
+            document.querySelector(".modal-novo").classList.remove("hidden");
+            document.querySelector(".overlay").classList.remove("hidden");
+        }
+        function closeModal() {
+            document.querySelector(".modal-novo").classList.add("hidden");
+            document.querySelector(".overlay").classList.add("hidden");
+        }
+        function mudarAoPassar() {
+            document.getElementById("btn_excluir").style.backgroundColor = "white";
+            document.getElementById("btn_excluir").style.color = "#a50a98";
+        }
+        function mudarAoSair() {
+            document.getElementById("btn_excluir").style.backgroundColor = "#a50a98";
+            document.getElementById("btn_excluir").style.color = "white";
+        }
+
+        function mudarAoPassar() {
+            document.getElementById("bnt_filtrar").style.backgroundColor = "white";
+            document.getElementById("bnt_filtrar").style.color = "#a50a98";
+        }
+        function mudarAoSair() {
+            document.getElementById("bnt_filtrar").style.backgroundColor = "#a50a98";
+            document.getElementById("bnt_filtrar").style.color = "white";
+        }
+
+    </script>
+
+</head>
+
+
+<body>
+    <nav class="navbar navbar-light " style="background-color: #a50a98;">
+        <nav style="margin-left: 2%;">
+            <a th:href="@{/livraria/publico/Retornar_Home}">
+                <img src="http://cdn.onlinewebfonts.com/svg/img_323457.png" class="card-img-top" alt="..."
+                    style="width: 40px;">
+                <a th:href="@{/livraria/publico/Retornar_Home}" class="navbar-brand m-3" href="#"
+                    style="color: #000000;">Livraria</a>
+            </a>
+        </nav>
+        <nav class="navbar navbar-light bg" style="display: flex; justify-content: center;">
+            <form class="form-inline" method="GET" th:action="@{/livraria/publico/home/pesquisa}"
+                th:object="${pesquisaDTO}" style="display: flex;justify-content: right;">
+                <input class="form-control mr-sm-2" type="search" th:field="*{campo}" placeholder="Search"
+                    aria-label="Search">
+
+                <button type="submit" class="btn" style="background: white;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-search" viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
+                        </path>
+                    </svg>
+                </button>
+            </form>
+
+        </nav>
+        <nav style="margin-right: 2%; ">
+            <a th:href="@{/livraria/protegido/carrinho}" class="carrinho">
+                <button type="button" class="btn" style="color: #000000; border: none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-cart-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                    </svg>
+                </button>
+            </a>
+            <a th:href="@{/livraria/publico/perfil}" class="perfil">
+                <button type="button" class="btn" style="color: #000000; border: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-person-circle m-3" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                        <path fill-rule="evenodd"
+                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                    </svg>
+                </button>
+            </a>
+        </nav>
+    </nav>
+    <div class="menu_container">
+
+        <nav class="conteiner_categorias">
+            <form method="GET" th:object="${categoriaFiltroDTO}" th:action="@{/livraria/publico/home/pesquisa/categoria}">
+            <h1>Filtrar por categoria</h1>
+            <div class="form-check" th:each="categoria : ${categorias}" >
+                <input  class="form-check-input"  type="checkbox" th:text="${categoria.nomeCategoria}" th:field="*{idCategoria}" th:value="${categoria.idCategortia}" id="flexCheckDefault">
+
+            </div>
+            <button id="bnt_filtrar" class="btn  btn-primary" type="submit" onmouseover="javascript:mudarAoPassar();"
+                onmouseout="javascript:mudarAoSair();">Filtrar</button>
+            </form>
+        </nav>
+
+        <div>
+            <div class="conteiner">
+                <div th:if="${excecao} != ''" class="container mt-4">
+                    <div class="alert alert-danger" role="alert">
+                        <span th:text="${excecao}"></span> 
+                        <button type="button" class="btn-close btn-outline-success" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="row row-cols-4">
+                    <div class="col m-4" th:each="livro : ${livros}"
+                        style="width: 14rem;display: flex; justify-content: center;">
+                        <div class="card" style="width: 14rem;display: flex; justify-content:center;">
+                            <a th:href="@{/livraria/publico/home/livro?(id=${livro.idLivro})}">
+                                <div style="display: flex; justify-content: center; margin-top: 5%;">
+                                    <img th:src="${livro.fotoLivro}" class="card-img-top" alt="..."
+                                        style="width: 185px;">
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <a th:href="@{/livraria/publico/home/livro?(id=${livro.idLivro})}" class="tituloAncora">
+                                    <h5 class="card-title" th:text="${livro.tituloLivro}">Não Foi Possível Encontrar
+                                        Nenhum
+                                        Livro</h5>
+                                </a>
+                                <p class="card-text">R$:
+                                    <span th:text="${livro.preco}">
+                                        58,99
+                                    </span>
+                                </p>
+                                <form th:action="@{/livraria/protegido/carrinho?(id=${livro.idLivro})}" method="post">
+                                    <div style="display: flex; justify-content: center;">
+                                        <button type="submit" class="btn btn-dark" style="font-size: 11px;">Adicionar ao
+                                            Carrinho</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <nav aria-label="Page navigation example" th:if="${fim} !=0" style="display: flex ;justify-content: center;">
+                <ul class="pagination">
+                  <li class="page-item"><a class="page-link" href="#" th:href="@{/livraria/publico/escolher_pagina_inicio/{id}(id=1)}">Inicio</a></li>
+                  <li class="page-item" th:each="numero : ${numeracao}"><a class="page-link" href="#" th:href="@{/livraria/publico/escolher_pagina_inicio/{id}(id=${numero})}" th:text="${numero}" ></a></li>
+                  <li class="page-item"><a class="page-link" href="#" th:href="@{/livraria/publico/escolher_pagina_inicio/{id}(id=${fim})}">Fim</a></li>
+                </ul>
+            </nav>
+        </div>
+       
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
